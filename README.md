@@ -6,4 +6,4 @@ Creating using: Google Gemini API, Python, and Streamlit
 
 To deploy, use streamlit run main.py in console.
 
-API Keys are stored locally in an .env file.  If you need the keys for testing, please reach out to me at aevalone@gmail.com for assistance.
+While Gemini Pro Vision is freely available via API, this can be tested at https://gemini-fashion.streamlit.app/
