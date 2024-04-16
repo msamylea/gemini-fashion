@@ -8,7 +8,8 @@ import base64
 import markdown 
 st.set_page_config(page_title="Fashion Assistant", page_icon="👗", layout="wide")
 
-genai.configure(api_key=os.environ.get(st.secrets["api_key"]))
+api_key = st.secrets["api_key"]
+genai.configure(api_key=api_key)
 
 def main():
     banner_css = """

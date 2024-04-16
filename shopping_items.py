@@ -3,6 +3,8 @@ import requests
 import os
 import streamlit as st
 
+ionic_api_key = st.secrets["ionic_api_key"]
+
 def find_ionic_items(user_query: str) -> List[dict]:
     url = "https://api.ioniccommerce.com/query"
 
@@ -11,7 +13,7 @@ def find_ionic_items(user_query: str) -> List[dict]:
             "num_results": 5
         }}
     headers = {
-        "x-api-key": os.environ.get(st.secrets["ionic_api_key"]),
+        "x-api-key": ionic_api_key,
         "Content-Type": "application/json"
     }
 

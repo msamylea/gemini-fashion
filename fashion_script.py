@@ -4,8 +4,8 @@ import shopping_items as si
 import os
 import streamlit as st
 
-
-genai.configure(api_key=os.environ.get(st.secrets["api_key"]))
+api_key = st.secrets["api_key"]
+genai.configure(api_key=api_key)
 
 def vision_model():
     vision_model = genai.GenerativeModel("gemini-pro-vision")
