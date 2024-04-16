@@ -1,5 +1,4 @@
 import google.generativeai as genai
-from dotenv import load_dotenv
 import os
 import streamlit as st
 import fashion_script as fs
@@ -9,8 +8,7 @@ import base64
 import markdown 
 st.set_page_config(page_title="Fashion Assistant", page_icon="👗", layout="wide")
 
-load_dotenv()
-genai.configure(api_key=os.environ.get("api_key"))
+genai.configure(api_key=os.environ.get(st.secrets["api_key"]))
 
 def main():
     banner_css = """
