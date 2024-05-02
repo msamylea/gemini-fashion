@@ -34,10 +34,10 @@ def image_review(user_image, user_query):
         user_image, 
         user_query
     ], safety_settings={
-        HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-        HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-        HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_ONLY_HIGH,
-        HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_ONLY_HIGH
+        HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+        HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+        HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+        HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
     })
     response.resolve()
     add_ons = create_search_phrases(response)
@@ -45,8 +45,21 @@ def image_review(user_image, user_query):
 
 def create_search_phrases(response):
     model = text_model()  
-    # Extract the text from the response
-    response_text = response.text
+    try:
+    # Check if 'candidates' list is not empty
+        if response.candidates:
+            # Access the first candidate's content if available
+            if response.candidates[0].content.parts:
+                generated_text = response.candidates[0].content.parts[0].text
+                print("Generated Text:", generated_text)
+            else:
+                print("No generated text found in the candidate.")
+        else:
+            print("No candidates found in the response.")
+    except (AttributeError, IndexError) as e:
+        print("Error:", e)
+
+    response_text = generated_text
     parsed_response = model.generate_content(["Generate a single search query to be used to search shopping. The search phrase should be based on the suggestions given in response_text and be no more than 2 words total. Try to combine specific search phrases.  Examples of good queries - 'red scarf', 'grey sandals', 'black jeans', 'silver necklace'", response_text])
     phrase = parsed_response.text
     add_ons = si.find_ionic_items(phrase)
